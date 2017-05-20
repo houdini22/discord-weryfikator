@@ -1,0 +1,12 @@
+@import '~reset-css/reset.css';
+// libs
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap/dist/css/bootstrap-grid.css';
+@import '~bootstrap/dist/css/bootstrap-reboot.css';
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
+@import '~font-awesome/css/font-awesome.min.css';
+// custom
+@import '_variables.scss';
+@import '_general.scss';
+@import '_animations.scss';
+@import '_theme_custom.scss';
