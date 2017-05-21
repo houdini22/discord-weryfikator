@@ -9,12 +9,24 @@
                         <h5>Krok 1</h5>
                         <b-card class="mb-2">
                             <slot>
-                                <b-button size="lg" variant="primary" :href="wykopUrl" v-if="displayLoginButton">
+                                <b-button size="md" variant="primary" :href="wykopUrl" v-if="displayLoginButton">
                                     Zaloguj z wykopem
                                 </b-button>
                                 <b-alert variant="success" show v-if="displayLoggedInInfo">
                                     Zalogowany jako: <strong>@{{login}}</strong>
                                 </b-alert>
+                            </slot>
+                        </b-card>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6">
+                    <div>
+                        <h5>Krok 2</h5>
+                        <b-card class="mb-2">
+                            <slot>
+                                <b-button size="md" variant="primary" :disabled="!isLoggedInWykop" :href="discordUrl">
+                                    Zaloguj z Discordem
+                                </b-button>
                             </slot>
                         </b-card>
                     </div>
@@ -29,6 +41,7 @@
   import HeaderComponent from '../partials/Header.vue'
   import FooterComponent from '../partials/Footer.vue'
   import {getWykopConnectUrl, parseConnectData} from '../../modules/wykop'
+  import {getDiscordUrl} from '../../modules/discord'
 
   export default {
     components: {
@@ -39,6 +52,9 @@
     computed: {
       wykopUrl () {
         return getWykopConnectUrl()
+      },
+      discordUrl () {
+        return getDiscordUrl()
       },
       isLoggedInWykop () {
         return this.$store.getters.isLoggedInWykop

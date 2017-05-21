@@ -7,6 +7,9 @@ const config = {
     'key': 'Z6G4zSqZiD',
     'secret': 'sogxVpaIC0',
     'redirectUrl': 'http://localhost:8080/#/weryfikacja'
+  },
+  'discord': {
+    'clientId': '315526419742588929'
   }
 }
 
