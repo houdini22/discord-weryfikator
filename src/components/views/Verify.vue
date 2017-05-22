@@ -24,12 +24,23 @@
                         <h5>Krok 2</h5>
                         <b-card class="mb-2">
                             <slot>
-                                <b-button size="md" variant="primary" :disabled="!isLoggedInWykop" :href="discordUrl">
+                                <b-button size="md" variant="primary" :disabled="!isLoggedInWykop" :href="discordUrl"
+                                          v-if="displayDiscordButton">
                                     Zaloguj z Discordem
                                 </b-button>
+                                <b-alert variant="success" show v-if="displayDiscordLoggedInInfo">
+                                    Zalogowany jako: <strong>@{{discordData.nick}}</strong>
+                                </b-alert>
                             </slot>
                         </b-card>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <b-alert variant="success" show v-if="displayDiscordLoggedInInfo && displayLoggedInInfo" class="verified-alert">
+                        <strong>Zostałeś zweryfikowany.</strong>
+                    </b-alert>
                 </div>
             </div>
         </div>
@@ -67,6 +78,18 @@
       },
       login () {
         return this.$store.getters.wykopData['login']
+      },
+      isLoggedInDiscord () {
+        return this.$store.getters.isLoggedInDiscord
+      },
+      displayDiscordButton () {
+        return !this.$store.getters.isLoggedInDiscord
+      },
+      displayDiscordLoggedInInfo () {
+        return this.$store.getters.isLoggedInDiscord
+      },
+      discordData () {
+        return this.$store.getters.discordData
       }
     },
     mounted () {
@@ -75,6 +98,17 @@
         let parsedConnectData = parseConnectData(connectData)
         this.$store.dispatch('setWykopData', parsedConnectData)
         this.$router.push('/weryfikacja')
+      }
+
+      let discordNick = this.$route.query.discord_nick
+      if (discordNick) {
+        this.$store.dispatch('setDiscordData', {
+          nick: discordNick
+        })
+        this.$router.push('/weryfikacja')
+      }
+
+      if (this.$route.query.discordError === 'true') {
       }
     }
   }
@@ -91,5 +125,9 @@
 
     .alert {
         margin: 0;
+    }
+
+    .verified-alert {
+        text-align: center;
     }
 </style>

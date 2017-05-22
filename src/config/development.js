@@ -6,10 +6,10 @@ const config = {
     'apiDomain': 'https://a.wykop.pl/',
     'key': 'Z6G4zSqZiD',
     'secret': 'sogxVpaIC0',
-    'redirectUrl': 'http://localhost:8080/#/weryfikacja'
+    'redirectUrl': 'http://localhost:3000/connect/wykop'
   },
   'discord': {
-    'clientId': '315526419742588929'
+    'clientId': '302772624964976640'
   }
 }
 

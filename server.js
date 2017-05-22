@@ -1,31 +1,66 @@
 const config = {
-  clientId: '',
-  secret: ''
+  logFilename: './log.txt',
+  clientId: '302772624964976640',
+  secret: 'zLAfgngsXcRTGdKvl8ODZ3-nIyeCYP3g',
+  wykopRedirectUrl: 'http://localhost:8080/#/weryfikacja',
+  redirectDiscordSuccessUrl: function (discordNick) {
+    let url = `http://localhost:8080/#/weryfikacja?discord_nick=${discordNick}`;
+    return url;
+  },
+  redirectDiscordErrorUrl: 'http://localhost:8080/#/weryfikacja?discord_error=true',
+  botWeryfikatorToken: 'MzAyNzcyNjI0OTY0OTc2NjQw.C_yuog.q48IPdlUIRzOdiZVMYJn4TWxNkU'
 };
 
+const fs = require('fs');
+const moment = require('moment');
+
+function saveLog(wykopNick, discordNick, ip) {
+  let timestamp = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+  let message = `[${timestamp}] ${wykopNick} ${discordNick} ${ip}` + "\n";
+  fs.appendFile(config.logFilename, message, function (err) {
+
+  });
+}
+
+const Discord = require('discord.js');
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const app = express();
-const axios = require('axios');
-var axiosInstance = axios.create({
-  baseURL: 'https://discordapp.com/'
+app.use(cookieParser());
+app.use(session({
+  secret: 'sessionsecret(*&GyBASyfbfbaubg8BiU6C66^&76C^%TYyHirohgjoiorhgoiuehrguerhgirhe',
+  resave: false,
+  saveUninitialized: true
+}));
+let discordApiInstance = require('axios').create({
+  baseURL: 'https://discordapp.com/api/'
 });
 
 const credentials = {
   client: {
-    id: '315526419742588929',
-    secret: '6zOodg4VS7CZ5itCak-X_rcnU4VVZev4'
+    id: config.clientId,
+    secret: config.secret
   },
   auth: {
     tokenHost: 'https://discordapp.com',
     tokenPath: '/api/oauth2/token'
   }
 };
-const oauth2 = require('simple-oauth2').create(credentials);
+const discordOAuth2 = require('simple-oauth2').create(credentials);
 
-const Discord = require('discord.js');
-const client = new Discord.Client();
-client.on('ready', () => {
-  console.log('I am ready!');
+
+const discordBot = new Discord.Client();
+
+app.get('/connect/wykop', (req, res) => {
+  let buffer = new Buffer(req.query.connectData, 'base64');
+  let data = buffer.toString();
+  let json = JSON.parse(data);
+
+  res.cookie('wykopData', JSON.stringify(json), {
+    maxAge: 1000 * 60 * 60 * 24 * 365
+  });
+  res.redirect(`${config.wykopRedirectUrl}?connectData=` + req.query.connectData);
 });
 
 app.get('/connect/discord', (req, res) => {
@@ -33,27 +68,37 @@ app.get('/connect/discord', (req, res) => {
     code: req.param('code'),
     redirect_uri: 'http://localhost:3000/connect/discord'
   };
-  console.log(req.param('code'));
-  oauth2.authorizationCode.getToken(tokenConfig)
+  let wykopLogin = JSON.parse(req.cookies.wykopData).login;
+  discordOAuth2.authorizationCode.getToken(tokenConfig)
     .then((result) => {
-      const token = oauth2.accessToken.create(result);
-
-
-// Alter defaults after instance has been created
-      axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + token.token.access_token;
-
-      axiosInstance.get('/api/users/@me').then((response) => {
-        console.log(response);
-      })
+      const token = discordOAuth2.accessToken.create(result);
+      discordApiInstance.defaults.headers.common['Authorization'] = 'Bearer ' + token.token.access_token;
+      discordApiInstance.get('/users/@me').then((response) => {
+        discordBot.login(config.botWeryfikatorToken).then(() => {
+          let channel = discordBot.channels.get('201688632040357888');
+          let member = channel.members.get(response.data.id);
+          member.addRole('314041761213317120').then(() => {
+            channel.sendMessage(`Wykopowicz ${wykopLogin} zweryfikował konto ${response.data.username}.`);
+            saveLog(wykopLogin, response.data.username, req.connection.remoteAddress);
+            res.redirect(config.redirectDiscordSuccessUrl(response.data.username));
+          }).catch((error) => {
+            console.log(error);
+            res.redirect(config.redirectDiscordErrorUrl);
+          });
+        }).catch((error) => {
+          console.log(error);
+          res.redirect(config.redirectDiscordErrorUrl);
+        });
+      }).catch((error) => {
+        console.log(error);
+        res.redirect(config.redirectDiscordErrorUrl);
+      });
     })
     .catch((error) => {
       console.log(error);
+      res.redirect(config.redirectDiscordErrorUrl);
     });
 });
-
-app.get('/callback', (req, res) => {
-
-})
 
 app.listen(3000, () => {
   console.log(`Server started at port 3000.`);

@@ -19,12 +19,15 @@
     "bootstrap-vue": "^0.16.1",
     "buffer": "^5.0.6",
     "client-oauth2": "^4.1.0",
+    "cookie-parser": "^1.4.3",
     "css-loader": "^0.28.0",
     "discord.js": "^11.1.0",
     "express": "^4.15.3",
+    "express-session": "^1.15.3",
     "extend": "^3.0.1",
     "font-awesome": "^4.7.0",
     "md5": "^2.2.1",
+    "moment": "^2.18.1",
     "node-sass": "^4.5.2",
     "reset-css": "^2.2.0",
     "reset.css": "^2.0.2",
@@ -34,7 +37,8 @@
     "vue-axios": "^2.0.2",
     "vue-form": "^4.0.1",
     "vue-router": "^2.3.1",
-    "vuex": "^2.3.1"
+    "vuex": "^2.3.1",
+    "vuex-persistedstate": "^1.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
