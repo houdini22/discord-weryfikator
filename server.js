@@ -2,12 +2,12 @@ const config = {
   logFilename: './log.txt',
   clientId: '302772624964976640',
   secret: 'zLAfgngsXcRTGdKvl8ODZ3-nIyeCYP3g',
-  wykopRedirectUrl: 'http://localhost:8080/#/weryfikacja',
+  wykopRedirectUrl: 'https://psychobaza.xyz/#/weryfikacja',
   redirectDiscordSuccessUrl: function (discordNick) {
-    let url = `http://localhost:8080/#/weryfikacja?discord_nick=${discordNick}`;
+    let url = `https://psychobaza.xyz/#/weryfikacja?discord_nick=${discordNick}`;
     return url;
   },
-  redirectDiscordErrorUrl: 'http://localhost:8080/#/weryfikacja?discord_error=true',
+  redirectDiscordErrorUrl: 'https://psychobaza.xyz/#/weryfikacja?discord_error=true',
   botWeryfikatorToken: 'MzAyNzcyNjI0OTY0OTc2NjQw.C_yuog.q48IPdlUIRzOdiZVMYJn4TWxNkU'
 };
 
@@ -66,7 +66,7 @@ app.get('/connect/wykop', (req, res) => {
 app.get('/connect/discord', (req, res) => {
   const tokenConfig = {
     code: req.param('code'),
-    redirect_uri: 'http://localhost:3000/connect/discord'
+    redirect_uri: 'http://psychobaza.xyz:3000/connect/discord'
   };
   let wykopLogin = JSON.parse(req.cookies.wykopData).login;
   discordOAuth2.authorizationCode.getToken(tokenConfig)
