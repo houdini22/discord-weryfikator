@@ -73,7 +73,7 @@ app.get('/connect/wykop', (req, res) => {
 app.get('/connect/discord', (req, res) => {
   const tokenConfig = {
     code: req.param('code'),
-    redirect_uri: 'http://localhost:2052/connect/discord'
+    redirect_uri: 'http://psychobaza.xyz:2052/connect/discord'
   };
   let wykopLogin = (JSON.parse(req.session.wykopData)).login;
   discordOAuth2.authorizationCode.getToken(tokenConfig)
