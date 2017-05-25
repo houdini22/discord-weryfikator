@@ -84,7 +84,7 @@ app.get('/connect/discord', (req, res) => {
         discordBotLoginPromise.then(() => {
           let member = weryfikacjaChannel.members.get(response.data.id);
           member.addRole(config.discordZweryfikowaniRoleId).then(() => {
-            weryfikacjaChannel.sendMessage(`Wykopowicz ${wykopLogin} zweryfikował konto ${response.data.username}.`);
+            weryfikacjaChannel.sendMessage(`:white_check_mark: Wykopowicz **${wykopLogin}** zweryfikował konto **${response.data.username}**.`);
             saveLog(wykopLogin, response.data.username, req.connection.remoteAddress);
             res.redirect(config.redirectDiscordSuccessUrl(response.data.username));
           }).catch((error) => {
