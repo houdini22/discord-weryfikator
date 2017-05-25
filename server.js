@@ -8,7 +8,10 @@ const config = {
     return url;
   },
   redirectDiscordErrorUrl: 'https://psychobaza.xyz/#/weryfikacja?discord_error=true',
-  botWeryfikatorToken: 'MzAyNzcyNjI0OTY0OTc2NjQw.C_yuog.q48IPdlUIRzOdiZVMYJn4TWxNkU'
+  botWeryfikatorToken: 'MzAyNzcyNjI0OTY0OTc2NjQw.C_yuog.q48IPdlUIRzOdiZVMYJn4TWxNkU',
+  discordZweryfikowaniRoleId: '314041761213317120',
+  discordWeryfikacjaChannelId: '201688632040357888',
+  discordLogChannelId: '313418687904219137'
 };
 
 const fs = require('fs');
@@ -27,12 +30,14 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const app = express();
+
 app.use(cookieParser());
 app.use(session({
   secret: 'sessionsecret(*&GyBASyfbfbaubg8BiU6C66^&76C^%TYyHirohgjoiorhgoiuehrguerhgirhe',
   resave: false,
   saveUninitialized: true
 }));
+
 let discordApiInstance = require('axios').create({
   baseURL: 'https://discordapp.com/api/'
 });
@@ -48,9 +53,11 @@ const credentials = {
   }
 };
 const discordOAuth2 = require('simple-oauth2').create(credentials);
-
-
 const discordBot = new Discord.Client();
+const discordBotLoginPromise = discordBot.login(config.botWeryfikatorToken);
+
+let logChannel;
+let weryfikacjaChannel;
 
 app.get('/connect/wykop', (req, res) => {
   let buffer = new Buffer(req.query.connectData, 'base64');
@@ -74,15 +81,15 @@ app.get('/connect/discord', (req, res) => {
       const token = discordOAuth2.accessToken.create(result);
       discordApiInstance.defaults.headers.common['Authorization'] = 'Bearer ' + token.token.access_token;
       discordApiInstance.get('/users/@me').then((response) => {
-        discordBot.login(config.botWeryfikatorToken).then(() => {
-          let channel = discordBot.channels.get('201688632040357888');
-          let member = channel.members.get(response.data.id);
-          member.addRole('314041761213317120').then(() => {
-            channel.sendMessage(`Wykopowicz ${wykopLogin} zweryfikował konto ${response.data.username}.`);
+        discordBotLoginPromise.then(() => {
+          let member = weryfikacjaChannel.members.get(response.data.id);
+          member.addRole(config.discordZweryfikowaniRoleId).then(() => {
+            weryfikacjaChannel.sendMessage(`Wykopowicz ${wykopLogin} zweryfikował konto ${response.data.username}.`);
             saveLog(wykopLogin, response.data.username, req.connection.remoteAddress);
             res.redirect(config.redirectDiscordSuccessUrl(response.data.username));
           }).catch((error) => {
             console.log(error);
+            logChannel.sendMessage(`Can't add role to user wykop:${wykopLogin} discord:${response.data.username}.`);
             res.redirect(config.redirectDiscordErrorUrl);
           });
         }).catch((error) => {
@@ -91,6 +98,7 @@ app.get('/connect/discord', (req, res) => {
         });
       }).catch((error) => {
         console.log(error);
+        logChannel.sendMessage(`Can't fetch discord user data for user wykop:${wykopLogin}.`);
         res.redirect(config.redirectDiscordErrorUrl);
       });
     })
@@ -100,6 +108,12 @@ app.get('/connect/discord', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-  console.log(`Server started at port 3000.`);
+discordBotLoginPromise.then(() => {
+  logChannel = discordBot.channels.get(config.discordLogChannelId);
+  weryfikacjaChannel = discordBot.channels.get(config.discordWeryfikacjaChannelId);
+  app.listen(3000, () => {
+    console.log(`Server started at port 3000.`);
+    logChannel.sendMessage(`Server up and running.`);
+  });
 });
+

@@ -7,7 +7,7 @@
                 <div class="col-md-6 col-xs-6">
                     <div>
                         <h5>Krok 1</h5>
-                        <b-card class="mb-2">
+                        <b-card class="mb-2 step-wykop">
                             <slot>
                                 <b-button size="md" variant="primary" :href="wykopUrl" v-if="displayLoginButton">
                                     Zaloguj z wykopem
@@ -22,7 +22,7 @@
                 <div class="col-md-6 col-xs-6">
                     <div>
                         <h5>Krok 2</h5>
-                        <b-card class="mb-2">
+                        <b-card class="mb-2 step-discord">
                             <slot>
                                 <b-button size="md" variant="primary" :disabled="!isLoggedInWykop" :href="discordUrl"
                                           v-if="displayDiscordButton">
@@ -30,6 +30,9 @@
                                 </b-button>
                                 <b-alert variant="success" show v-if="displayDiscordLoggedInInfo">
                                     Zalogowany jako: <strong>@{{discordData.nick}}</strong>
+                                </b-alert>
+                                <b-alert variant="warning" show v-if="discordError">
+                                    Wystąpił błąd. Spróbuj ponownie.
                                 </b-alert>
                             </slot>
                         </b-card>
@@ -90,6 +93,9 @@
       },
       discordData () {
         return this.$store.getters.discordData
+      },
+      discordError () {
+        return this.$route.query.discord_error === 'true'
       }
     },
     mounted () {
@@ -106,9 +112,6 @@
           nick: discordNick
         })
         this.$router.push('/weryfikacja')
-      }
-
-      if (this.$route.query.discordError === 'true') {
       }
     }
   }
@@ -129,5 +132,11 @@
 
     .verified-alert {
         text-align: center;
+    }
+
+    .step-discord {
+        .alert {
+            margin-top: 15px;
+        }
     }
 </style>
