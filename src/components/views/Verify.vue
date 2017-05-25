@@ -135,7 +135,7 @@
     }
 
     .step-discord {
-        .alert {
+        .alert.alert-warning {
             margin-top: 15px;
         }
     }

@@ -33,9 +33,10 @@ const app = express();
 
 app.use(cookieParser());
 app.use(session({
-  secret: 'sessionsecret(*&GyBASyfbfbaubg8BiU6C66^&76C^%TYyHirohgjoiorhgoiuehrguerhgirhe',
+  secret: 'sessionsecret(*&GyBASyfbfasddfdsfgsdhsdfdfgsdfgsdhrguerhgirhe',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { secure: true }
 }));
 
 let discordApiInstance = require('axios').create({
@@ -64,9 +65,7 @@ app.get('/connect/wykop', (req, res) => {
   let data = buffer.toString();
   let json = JSON.parse(data);
 
-  res.cookie('wykopData', JSON.stringify(json), {
-    maxAge: 1000 * 60 * 60 * 24 * 365
-  });
+  req.session.wykopData = json;
   res.redirect(`${config.wykopRedirectUrl}?connectData=` + req.query.connectData);
 });
 
@@ -75,7 +74,7 @@ app.get('/connect/discord', (req, res) => {
     code: req.param('code'),
     redirect_uri: 'http://psychobaza.xyz:2052/connect/discord'
   };
-  let wykopLogin = JSON.parse(req.cookies.wykopData).login;
+  let wykopLogin = req.session.wykopData.login;
   discordOAuth2.authorizationCode.getToken(tokenConfig)
     .then((result) => {
       const token = discordOAuth2.accessToken.create(result);
@@ -112,7 +111,7 @@ discordBotLoginPromise.then(() => {
   logChannel = discordBot.channels.get(config.discordLogChannelId);
   weryfikacjaChannel = discordBot.channels.get(config.discordWeryfikacjaChannelId);
   app.listen(2052, () => {
-    console.log(`Server started at port 3000.`);
+    console.log(`Server started at port 2052.`);
     logChannel.sendMessage(`Server up and running.`);
   });
 });
