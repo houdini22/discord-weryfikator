@@ -111,7 +111,7 @@ app.get('/connect/discord', (req, res) => {
 discordBotLoginPromise.then(() => {
   logChannel = discordBot.channels.get(config.discordLogChannelId);
   weryfikacjaChannel = discordBot.channels.get(config.discordWeryfikacjaChannelId);
-  app.listen(3000, () => {
+  app.listen(2052, () => {
     console.log(`Server started at port 3000.`);
     logChannel.sendMessage(`Server up and running.`);
   });
