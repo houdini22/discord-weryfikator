@@ -66,8 +66,15 @@ let weryfikacjaChannel;
 app.get('/connect/wykop', (req, res) => {
   let buffer = new Buffer(req.query.connectData, 'base64');
   let data = buffer.toString();
-
   req.session.wykopData = data;
+
+  try {
+    let wykopLogin = (JSON.parse(req.session.wykopData)).login;
+    logChannel.sendMessage(`Wykopowicz ${wykopLogin} zalogował się.`);
+  } catch (ex) {
+
+  }
+
   res.redirect(`${config.wykopRedirectUrl}?connectData=` + req.query.connectData);
 });
 
@@ -76,7 +83,7 @@ app.get('/connect/discord', (req, res) => {
     code: req.param('code'),
     redirect_uri: 'http://psychobaza.xyz:2052/connect/discord'
   };
-  if(!req.session.wykopData) {
+  if (!req.session.wykopData) {
     return res.redirect(config.redirectWykopErrorUrl)
   }
   let wykopLogin = (JSON.parse(req.session.wykopData)).login;
