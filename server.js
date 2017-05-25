@@ -63,9 +63,8 @@ let weryfikacjaChannel;
 app.get('/connect/wykop', (req, res) => {
   let buffer = new Buffer(req.query.connectData, 'base64');
   let data = buffer.toString();
-  let json = JSON.parse(data);
 
-  req.session.wykopData = json;
+  req.session.wykopData = data;
   res.redirect(`${config.wykopRedirectUrl}?connectData=` + req.query.connectData);
 });
 
@@ -74,7 +73,7 @@ app.get('/connect/discord', (req, res) => {
     code: req.param('code'),
     redirect_uri: 'http://psychobaza.xyz:2052/connect/discord'
   };
-  let wykopLogin = req.session.wykopData.login;
+  let wykopLogin = (JSON.parse(req.session.wykopData)).login;
   discordOAuth2.authorizationCode.getToken(tokenConfig)
     .then((result) => {
       const token = discordOAuth2.accessToken.create(result);
