@@ -41,7 +41,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <b-alert variant="success" show v-if="displayDiscordLoggedInInfo && displayLoggedInInfo" class="verified-alert">
+                    <b-alert variant="success" show v-if="displayDiscordLoggedInInfo && displayLoggedInInfo"
+                             class="verified-alert">
                         <strong>Zostałeś zweryfikowany.</strong>
                     </b-alert>
                 </div>
@@ -111,6 +112,12 @@
         this.$store.dispatch('setDiscordData', {
           nick: discordNick
         })
+        this.$router.push('/weryfikacja')
+      }
+
+      if (this.$route.query.wykop_error === 'true') {
+        this.$store.dispatch('setWykopData', JSON.stringify({}))
+        this.$store.dispatch('setDiscordData', {})
         this.$router.push('/weryfikacja')
       }
     }

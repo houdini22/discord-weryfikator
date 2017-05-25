@@ -8,6 +8,7 @@ const config = {
     return url;
   },
   redirectDiscordErrorUrl: 'https://psychobaza.xyz/#/weryfikacja?discord_error=true',
+  redirectWykopErrorUrl: 'https://psychobaza.xyz/#/weryfikacja?wykop_error=true',
   botWeryfikatorToken: 'MzAyNzcyNjI0OTY0OTc2NjQw.C_yuog.q48IPdlUIRzOdiZVMYJn4TWxNkU',
   discordZweryfikowaniRoleId: '314041761213317120',
   discordWeryfikacjaChannelId: '201688632040357888',
@@ -75,6 +76,9 @@ app.get('/connect/discord', (req, res) => {
     code: req.param('code'),
     redirect_uri: 'http://psychobaza.xyz:2052/connect/discord'
   };
+  if(!req.session.wykopData) {
+    return res.redirect(config.redirectWykopErrorUrl)
+  }
   let wykopLogin = (JSON.parse(req.session.wykopData)).login;
   discordOAuth2.authorizationCode.getToken(tokenConfig)
     .then((result) => {
