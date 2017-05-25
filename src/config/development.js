@@ -5,7 +5,7 @@ const config = {
   'wykop': {
     'apiDomain': 'https://a.wykop.pl/',
     'key': 'Z6G4zSqZiD',
-    'redirectUrl': 'http://psychobaza.xyz:3000/connect/wykop'
+    'redirectUrl': 'http://psychobaza.xyz:2052/connect/wykop'
   },
   'discord': {
     'clientId': '302772624964976640'
