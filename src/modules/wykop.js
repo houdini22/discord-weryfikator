@@ -6,7 +6,8 @@ export function getWykopConnectUrl () {
   let url = `${domain}user/connect/appkey,${config.wykop.key},`
   url += `redirect,${encodeURIComponent(new Buffer(config.wykop.redirectUrl).toString('base64'))},`
   // url += `secure,${md5(config.wykop.secret + config.wykop.redirectUrl)}`
-  url += 'secure,3f1be2a0f5c80fffd1b77baa8bfec954'
+  // console.log(`secure,${md5(config.wykop.secret + config.wykop.redirectUrl)}`)
+  url += 'secure,0079daf985b81f72a530b985d7990e7c'
   return url
 }
 
