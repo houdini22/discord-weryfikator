@@ -2,7 +2,12 @@
     <div class="page page-index">
         <header-component></header-component>
         <div class="container">
-            <h3 class="page-header">Weryfikacja</h3>
+            <h3 class="page-header">
+                Weryfikacja
+                <span class="pull-right">
+                    <b-button size="sm" variant="primary" @click="resetData()">Resetuj</b-button>
+                </span>
+            </h3>
             <div class="row">
                 <div class="col-md-6 col-xs-6">
                     <div>
@@ -32,7 +37,7 @@
                                     Zalogowany jako: <strong>@{{discordData.nick}}</strong>
                                 </b-alert>
                                 <b-alert variant="warning" show v-if="discordError">
-                                    Wystąpił błąd. Spróbuj ponownie.
+                                    Wystąpił błąd. Spróbuj ponownie lub naciśnij przycisk "Resetuj".
                                 </b-alert>
                             </slot>
                         </b-card>
@@ -97,6 +102,12 @@
       },
       discordError () {
         return this.$route.query.discord_error === 'true'
+      }
+    },
+    methods: {
+      resetData () {
+        this.$store.dispatch('setWykopData', JSON.stringify({}))
+        this.$store.dispatch('setDiscordData', {})
       }
     },
     mounted () {
