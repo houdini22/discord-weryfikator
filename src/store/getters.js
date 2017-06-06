@@ -13,3 +13,7 @@ export function wykopData (state) {
 export function discordData (state) {
   return state.discordData
 }
+
+export function discordUsers (state) {
+  return state.discordUsers
+}

@@ -5,3 +5,7 @@ export function setWykopData ({commit}, data = {}) {
 export function setDiscordData ({commit}, data = {}) {
   commit('setDiscordData', data)
 }
+
+export function setDiscordUsers ({commit}, data = []) {
+  commit('setDiscordUsers', data)
+}

@@ -1,4 +1,5 @@
 export default {
   wykopData: {},
-  discordData: {}
+  discordData: {},
+  discordUsers: []
 }

@@ -11,7 +11,7 @@ const config = {
   redirectWykopErrorUrl: 'https://psychobaza.xyz/#/weryfikacja?wykop_error=true',
   botWeryfikatorToken: 'MzAyNzcyNjI0OTY0OTc2NjQw.C_yuog.q48IPdlUIRzOdiZVMYJn4TWxNkU',
   discordZweryfikowaniRoleId: '314041761213317120',
-  discordWeryfikacjaChannelId: '201688632040357888',
+  discordWeryfikacjaGuildId: '201688632040357888',
   discordLogChannelId: '313418687904219137'
 };
 
@@ -30,8 +30,10 @@ const Discord = require('discord.js');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const cors = require('cors');
 const app = express();
 
+app.use(cors());
 app.use(cookieParser());
 app.use(session({
   secret: '&*gyUYGbsbbBBBBBBASDASDASDASDBBBBBB&H*YUUI)(*UHUUgyuYuiKk4Mk    UIBUByb    YUYUG&&^',
@@ -119,9 +121,24 @@ app.get('/connect/discord', (req, res) => {
     });
 });
 
+app.get('/api/discordUsers', (req, res) => {
+  let guild = discordBot.guilds.get(config.discordWeryfikacjaGuildId);
+  let members = guild.members.array();
+  let result = [];
+  members.forEach((obj) => {
+    result.push({
+      nick: obj.user.username
+    });
+  });
+  result.sort((a, b) => {
+    return a.nick.toLowerCase() > b.nick.toLowerCase();
+  });
+  res.send(result);
+});
+
 discordBotLoginPromise.then(() => {
   logChannel = discordBot.channels.get(config.discordLogChannelId);
-  weryfikacjaChannel = discordBot.channels.get(config.discordWeryfikacjaChannelId);
+  weryfikacjaChannel = discordBot.channels.get(config.discordWeryfikacjaGuildId);
   app.listen(2052, () => {
     console.log(`Server started at port 2052.`);
     logChannel.sendMessage(`Server up and running.`);
