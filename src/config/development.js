@@ -1,6 +1,6 @@
 const config = {
   'api': {
-    'baseURL': 'http://psychobaza.xyz:2052/',
+    'baseURL': 'http://psychobaza.xyz:2052/'
     // 'baseURL': 'http://localhost:2052/'
   },
   'wykop': {
