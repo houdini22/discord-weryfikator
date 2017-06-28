@@ -6,10 +6,10 @@
             <div class="servers-container">
                 <ul class="servers">
                     <li>
-                        <a href="http://www.gametracker.com/server_info/147.135.132.228:7707/" target="_blank"><img src="http://cache.gametracker.com/server_info/147.135.132.228:7707/b_160_400_1_ffffff_c5c5c5_ffffff_000000_1_1_0.png" border="0" width="160" height="354" alt=""/></a>
+                        <iframe src="http://cache.gametracker.com/components/html0/?host=91.134.179.21:7707&bgColor=333333&fontColor=CCCCCC&titleBgColor=222222&titleColor=FF9900&borderColor=555555&linkColor=FFCC00&borderLinkColor=222222&showMap=1&currentPlayersHeight=100&showCurrPlayers=1&topPlayersHeight=100&showTopPlayers=1&showBlogs=0&width=240" frameborder="0" scrolling="no" width="240" height="536"></iframe>
                     </li>
                     <li>
-                        <a href="http://www.gametracker.com/server_info/147.135.132.228:27015/" target="_blank"><img src="http://cache.gametracker.com/server_info/147.135.132.228:27015/b_160_400_1_ffffff_c5c5c5_ffffff_000000_1_1_0.png" border="0" width="160" height="354" alt=""/></a>
+                        <iframe src="http://cache.gametracker.com/components/html0/?host=91.134.179.21:27015&bgColor=333333&fontColor=CCCCCC&titleBgColor=222222&titleColor=FF9900&borderColor=555555&linkColor=FFCC00&borderLinkColor=222222&showMap=1&currentPlayersHeight=100&showCurrPlayers=1&topPlayersHeight=100&showTopPlayers=1&showBlogs=0&width=240" frameborder="0" scrolling="no" width="240" height="536"></iframe>
                     </li>
                 </ul>
             </div>
