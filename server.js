@@ -143,5 +143,45 @@ discordBotLoginPromise.then(() => {
     console.log(`Server started at port 2052.`);
     logChannel.sendMessage(`Server up and running.`);
   });
+
+  // messages loggin
+  discordBot.on('message', (message) => {
+    if (message.channel.name === 'random') {
+      processMessage(message.content, message.author.username);
+    }
+  });
 });
 
+let messages = {};
+let lastNick = false;
+
+function writeMessage(message) {
+  message += "\n";
+  let timestamp = moment(new Date()).format("YYYY-MM-DD");
+  fs.appendFile('./AI/' + timestamp + '.txt', message, (err) => {
+
+  });
+}
+
+function processMessage(message, nick) {
+  if (!messages[nick]) {
+    messages[nick] = '';
+  }
+
+  message = message.replace(/<([@:0-9a-zA-Z]+)>/g, '').replace(/\s+/, ' ');
+  message = message.replace(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/g, '');
+
+  if (lastNick === false) {
+    lastNick = nick;
+  } else {
+    if (lastNick !== nick) {
+      messages[lastNick] = messages[lastNick].trim();
+      if(messages[lastNick]) {
+        writeMessage(messages[lastNick].trim());
+      }
+      messages[lastNick] = '';
+      lastNick = nick;
+    }
+    messages[nick] += ' ' + message;
+  }
+}
