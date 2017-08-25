@@ -168,7 +168,7 @@ function processMessage(message, nick) {
     messages[nick] = '';
   }
 
-  message = message.replace(/<([@:0-9a-zA-Z]+)>/g, '').replace(/\s+/, ' ');
+  message = message.replace(/<([@:0-9a-zA-Z]+)>/g, '').replace(/\s+/g, ' ').replace(/\S+/g, ' ');
   message = message.replace(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/g, '');
 
   if (lastNick === false) {
@@ -177,7 +177,7 @@ function processMessage(message, nick) {
     if (lastNick !== nick) {
       messages[lastNick] = messages[lastNick].trim();
       if(messages[lastNick]) {
-        writeMessage(messages[lastNick].trim());
+        writeMessage(messages[lastNick]);
       }
       messages[lastNick] = '';
       lastNick = nick;
