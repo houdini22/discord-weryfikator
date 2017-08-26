@@ -159,7 +159,6 @@ function writeMessage(message) {
   message += "\n";
   let timestamp = moment(new Date()).format("YYYY-MM-DD");
   fs.appendFile('./AI/' + timestamp + '.txt', message, (err) => {
-
   });
 }
 
@@ -168,7 +167,7 @@ function processMessage(message, nick) {
     messages[nick] = '';
   }
 
-  message = message.replace(/<([@:0-9a-zA-Z]+)>/g, '').replace(/\s+/g, ' ').replace(/\S+/g, ' ');
+  message = message.replace(/<([@:0-9a-zA-Z]+)>/g, '').replace(/\s+/g, ' ')
   message = message.replace(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/g, '');
 
   if (lastNick === false) {
