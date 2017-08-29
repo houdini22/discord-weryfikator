@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
-    "bootstrap": "^4.0.0-alpha.6",
-    "bootstrap-vue": "^0.16.1",
+    "bootstrap": "^4.0.0-beta",
+    "bootstrap-vue": "^1.0.0-beta.5",
     "buffer": "^5.0.6",
     "client-oauth2": "^4.1.0",
     "cookie-parser": "^1.4.3",
