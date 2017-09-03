@@ -13,11 +13,11 @@
                     <b-nav-item to="/weryfikacja">
                         Weryfikacja
                     </b-nav-item>
-                    <b-nav-item to="/serwery">
-                        Serwery
+                    <b-nav-item to="/radio">
+                        Radio
                     </b-nav-item>
-                    <b-nav-item to="/uzytkownicy">
-                        Użytkownicy
+                    <b-nav-item to="/ramowka">
+                        Ramówka
                     </b-nav-item>
                 </b-nav>
             </b-collapse>
