@@ -1,5 +1,5 @@
 <template>
-    <div class="page page-servers">
+    <div class="page page-radio">
         <header-component></header-component>
         <div class="container">
             <h3>Radio</h3>
