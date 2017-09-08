@@ -5,6 +5,8 @@ import HomeComponent from '@/components/views/Home'
 import VerifyComponent from '@/components/views/Verify'
 import ServersComponent from '@/components/views/Servers'
 import UsersComponent from '@/components/views/Users'
+import RadioComponent from '@/components/views/Radio'
+import RamowkaComponent from '@/components/views/Ramowka'
 
 Vue.use(Router)
 
@@ -29,6 +31,16 @@ export default new Router({
       path: '/uzytkownicy',
       name: 'Users',
       component: UsersComponent
+    },
+    {
+      path: '/radio',
+      name: 'Radio',
+      component: RadioComponent
+    },
+    {
+      path: '/ramowka',
+      name: 'Ramowka',
+      component: RamowkaComponent
     }
   ]
 })

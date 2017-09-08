@@ -1,9 +1,9 @@
 <template>
-    <div class="page page-radio">
+    <div class="page page-ramowka">
         <header-component></header-component>
         <div class="container">
-            <h3>Radio</h3>
-            <div class="radio-container">
+            <h3>Ramówka</h3>
+            <div class="ramowka-container">
                 
             </div>
         </div>
@@ -24,16 +24,8 @@
 </script>
 
 <style scoped lang="scss">
-    .servers-container {
-        text-align: center;
-        .servers {
-            li {
-                display: inline-block;
-                margin-right: 15px;
-                &:last-child {
-                    margin: 0;
-                }
-            }
-        }
+    .ramowka-container {
+
     }
 </style>
+

@@ -1,10 +1,12 @@
 <template>
-    <div class="page page-ramowka">
+    <div class="page page-radio">
         <header-component></header-component>
         <div class="container">
-            <h3>Ramówka</h3>
-            <div class="ramowka-container">
-                
+            <h3>Radio</h3>
+            <div class="radio-container">
+                <video controls="" autoplay="" name="media">
+                    <source src="http://psychobaza.xyz:8880/live" type="audio/mpeg">
+                </video>
             </div>
         </div>
         <footer-component></footer-component>
@@ -14,27 +16,18 @@
 <script>
   import HeaderComponent from '../partials/Header.vue'
   import FooterComponent from '../partials/Footer.vue'
+
   export default {
     components: {
       'header-component': HeaderComponent,
       'footer-component': FooterComponent
     },
-    name: 'servers'
+    name: 'radio'
   }
 </script>
 
 <style scoped lang="scss">
-    .servers-container {
+    .radio-container {
         text-align: center;
-        .servers {
-            li {
-                display: inline-block;
-                margin-right: 15px;
-                &:last-child {
-                    margin: 0;
-                }
-            }
-        }
     }
 </style>
-

@@ -4,9 +4,7 @@
         <div class="container">
             <h3 class="page-header">
                 Weryfikacja
-                <span class="pull-right">
-                    <b-button size="sm" variant="primary" @click="resetData()">Resetuj</b-button>
-                </span>
+                <b-button size="sm" variant="primary" @click="resetData()">Resetuj</b-button>
             </h3>
             <div class="row">
                 <div class="col-md-6 col-xs-6">
